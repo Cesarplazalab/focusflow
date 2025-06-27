@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
 import Card from '../components/Card';
-import Button from '../components/Button';
+import { Button } from '../components/Button';
 import PageWrapper from '../components/PageWrapper';
 
 interface Task {

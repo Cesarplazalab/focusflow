@@ -1,4 +1,13 @@
-function Button({ children, onClick, type = 'button', color = 'primary' }: ButtonProps) {
+import type { ReactNode } from 'react';
+
+interface ButtonProps {
+  children: ReactNode;
+  onClick?: () => void;
+  type?: 'button' | 'submit';
+  color?: 'primary' | 'secondary' | 'danger';
+}
+
+export function Button({ children, onClick, type = 'button', color = 'primary' }: ButtonProps) {
   let baseStyle = 'px-4 py-2 rounded-lg transition text-white cursor-pointer font-medium shadow';
   let colorStyle = '';
 
@@ -12,4 +21,5 @@ function Button({ children, onClick, type = 'button', color = 'primary' }: Butto
     </button>
   );
 }
+
 
