@@ -90,6 +90,7 @@ function Dashboard() {
         </Button>
       </div>
 
+      {/* Task Section */}
       <Card>
         <h2 className="text-2xl font-semibold text-gray-700">Tasks</h2>
         <form onSubmit={handleAddTask} className="flex space-x-2 mb-4">
@@ -98,33 +99,40 @@ function Dashboard() {
             placeholder="New Task"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
-            className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             required
           />
           <Button type="submit" color="secondary">
             Add Task
           </Button>
         </form>
-        <ul className="space-y-2">
-          {tasks.map((task) => (
-            <li
-              key={task._id}
-              className={`p-4 border rounded-lg shadow cursor-pointer hover:bg-green-50 transition ${task.isCompleted ? 'bg-green-100' : 'bg-white'}`}
-              onClick={async () => {
-                try {
-                  await api.put(`/tasks/${task._id}`);
-                  fetchTasks();
-                } catch (error) {
-                  console.error('Error updating task:', error);
-                }
-              }}
-            >
-              <span className="font-medium">{task.title}</span> {task.isCompleted ? '(Completed)' : ''}
-            </li>
-          ))}
-        </ul>
+
+        {tasks.length === 0 ? (
+          <p className="text-gray-500 italic">No tasks yet. Add one!</p>
+        ) : (
+          <ul className="space-y-2">
+            {tasks.map((task) => (
+              <li
+                key={task._id}
+                className={`p-4 border rounded-lg shadow cursor-pointer hover:bg-green-50 transition flex justify-between items-center ${task.isCompleted ? 'bg-green-100' : 'bg-white'}`}
+                onClick={async () => {
+                  try {
+                    await api.put(`/tasks/${task._id}`);
+                    fetchTasks();
+                  } catch (error) {
+                    console.error('Error updating task:', error);
+                  }
+                }}
+              >
+                <span className="font-medium">{task.title}</span>
+                <span className="text-sm text-gray-500">{task.isCompleted ? 'Completed' : 'Incomplete'}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </Card>
 
+      {/* Mood Section */}
       <Card>
         <h2 className="text-2xl font-semibold text-gray-700">Mood Check-ins</h2>
         <form onSubmit={handleAddMood} className="flex space-x-2 mb-4">
@@ -133,25 +141,31 @@ function Dashboard() {
             placeholder="Your Mood"
             value={newMood}
             onChange={(e) => setNewMood(e.target.value)}
-            className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+            className="border p-3 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
             required
           />
           <Button type="submit" color="primary">
             Add Mood
           </Button>
         </form>
-        <ul className="space-y-2">
-          {moods.map((mood) => (
-            <li key={mood._id} className="p-4 border rounded-lg shadow bg-white">
-              <span className="font-medium">Mood:</span> {mood.mood} &nbsp;
-              <span className="font-medium">Energy:</span> {mood.energyLevel}
-            </li>
-          ))}
-        </ul>
+
+        {moods.length === 0 ? (
+          <p className="text-gray-500 italic">No mood check-ins yet. Add one!</p>
+        ) : (
+          <ul className="space-y-2">
+            {moods.map((mood) => (
+              <li key={mood._id} className="p-4 border rounded-lg shadow bg-white">
+                <span className="font-medium">Mood:</span> {mood.mood} &nbsp;
+                <span className="font-medium">Energy:</span> {mood.energyLevel}
+              </li>
+            ))}
+          </ul>
+        )}
       </Card>
     </PageWrapper>
   );
 }
 
 export default Dashboard;
+
 
